@@ -104,7 +104,7 @@ login_manager.login_message = "You must be logged in to access this page."
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(256), nullable=False) #changed to 256 from 128 for max char limit for password
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
 
     def set_password(self, password):
