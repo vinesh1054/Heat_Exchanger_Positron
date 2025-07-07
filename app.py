@@ -88,7 +88,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 # Place this in app.py after your db = SQLAlchemy(app) line
-#to create tables in render sql
+# to create tables in render sql
 @app.cli.command("create-tables")
 def create_tables():
     """Creates all database tables."""

@@ -22,7 +22,7 @@
     margin: 0;
     padding: 0;
     font-size: 15px; /* Slightly smaller base font for dense UI */
-/* } */ */
+/* } */ 
 
 /* --- 2. DASHBOARD LAYOUT --- */
 .dashboard-container {
@@ -164,7 +164,7 @@
         display: none !important;
     }
     .sidebar-logo{
-        size: 50;
+        /* size: 50; */
     }
 
     /* Hide the web page header and action buttons */
