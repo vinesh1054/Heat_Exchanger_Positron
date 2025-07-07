@@ -1,0 +1,225 @@
+/* static/css/base.css */
+
+/* --- 1. DESIGN SYSTEM: COLORS & FONTS --- */
+:root {
+    --primary-color: #4A90E2;      
+    --primary-hover: #357ABD;      
+    --sidebar-bg: #2c3e50;
+    --sidebar-link-color: #bdc3c7;
+    --sidebar-link-hover-bg: #34495e;
+    --content-bg: #f4f7f9; /* Slightly different light gray */
+    --card-bg: #ffffff;
+    --text-color: #34495e;
+    --header-color: #2c3e50;
+    --border-color: #e4e9ed; /* Lighter border color */
+    --shadow-color: rgba(44, 62, 80, 0.08);
+}
+
+/* body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--content-bg);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    font-size: 15px; /* Slightly smaller base font for dense UI */
+/* } */ */
+
+/* --- 2. DASHBOARD LAYOUT --- */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: white;
+    position: fixed;
+    height: 100%;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+
+.main-content {
+    margin-left: 250px; /* Same as sidebar width */
+    flex-grow: 1;
+    padding: 2rem;
+}
+
+/* --- 3. SIDEBAR STYLING --- */
+.sidebar-header {
+    /* background-color: white;  */
+    /* padding: 0 20px 20px 20px; */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: auto; */
+    /* padding: 20px;  */
+    /* text-align: center; */
+    /* Use a lighter border color that looks better on a white background */
+    /* border-bottom: 1px solid var(--border-color);  */
+}
+.sidebar-logo {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+.sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    flex-grow: 1;
+}
+.sidebar-nav .nav-link {
+    display: block;
+    padding: 12px 25px;
+    color: var(--sidebar-link-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
+    border-left: 4px solid transparent;
+}
+.sidebar-nav .nav-link:hover {
+    background-color: var(--sidebar-link-hover-bg);
+    color: white;
+}
+.sidebar-nav .nav-link.active {
+    background-color: var(--sidebar-link-hover-bg);
+    color: white;
+    border-left-color: var(--primary-color);
+}
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid var(--sidebar-link-hover-bg);
+    font-size: 0.9em;
+    text-align: center;
+}
+
+/* --- 4. MAIN CONTENT AREA STYLING --- */
+.flash-messages-container {
+    margin-bottom: 1.5rem;
+}
+.page-header {
+    margin-bottom: 2rem;
+}
+.page-header h1 {
+    font-weight: 700;
+    color: var(--header-color);
+    margin: 0;
+}
+.page-header p {
+    color: #7f8c8d;
+    font-size: 1.1em;
+    margin-top: 0.25rem;
+}
+
+
+/* --- Hide the print-only header by default --- */
+.print-header {
+    display: none;
+}
+
+@media print {
+    /* Define the page size and margins for a professional look */
+    @page {
+        size: A4;
+        margin: 1in;
+    }
+
+    body {
+        background-color: #fff !important;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 12pt;
+    }
+
+    body::after {
+        /* 1. The Watermark Content */
+        content: "Positron"; /* Or "CONFIDENTIAL", "INTERNAL USE ONLY", etc. */
+        
+        /* 2. Positioning */
+        position: fixed; /* Fixed position relative to the viewport (each printed page) */
+        top: 50%;        /* Center vertically */
+        left: 50%;       /* Center horizontally */
+        
+        /* 3. Visual Styling */
+        font-size: 150pt;        /* Very large font size */
+        font-weight: bold;
+        color: rgba(0, 0, 0, 0.08); /* Very light gray, almost transparent */
+        
+        /* 4. Rotation & Layering */
+        transform: translate(-50%, -50%) rotate(-45deg); /* Move back to center and rotate */
+        z-index: -1; /* CRITICAL: Puts the watermark behind all other content */
+        pointer-events: none; /* Prevents the watermark from interfering with mouse events (good practice) */
+    }
+
+    /* --- HIDE ALL ON-SCREEN-ONLY ELEMENTS --- */
+    
+    /* CRITICAL: This is the rule that hides the sidebar */
+    .sidebar {
+        display: none !important;
+    }
+    .sidebar-logo{
+        size: 50;
+    }
+
+    /* Hide the web page header and action buttons */
+    header, .actions {
+        display: none !important;
+    }
+    
+    /* CRITICAL: Reset the main content area to fill the page */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    /* --- SHOW AND STYLE THE PRINT-ONLY HEADER --- */
+    .print-header {
+        display: block; /* Make the header visible for print */
+        margin-bottom: 30px; /* Add some space below the logo */
+    }
+
+    .print-logo {
+        height: 40px; /* Set a small, fixed height for the logo */
+        width: auto;  /* Allow the width to adjust automatically */
+    }
+
+    /* --- STYLE THE PRINTED CONTENT --- */
+    
+    .card {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 20px;
+        background: transparent !important;
+        /* Try to keep sections from being split across two pages */
+        page-break-inside: avoid;
+    }
+
+    /* Force a page break before each section, except the very first one
+    .card:not(:first-child) {
+        page-break-before: always;
+    } */
+    
+    h3 {
+        font-size: 16pt;
+        border-bottom: 2px solid #000; /* Use a solid black line for print */
+        page-break-after: avoid; /* Keep the heading with its content */
+    }
+
+    /* Ensure all text is black for high-contrast printing */
+    * {
+        color: #000 !important;
+        background: transparent !important;
+    }
+}

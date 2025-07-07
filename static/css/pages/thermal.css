@@ -1,0 +1,55 @@
+/* static/css/pages/thermal.css */
+
+.thermal-grid-header, .thermal-grid {
+    display: grid;
+    /* Define 6 columns for our data */
+    /* Property | Unit | Shell Inlet | Shell Outlet | Tube Inlet | Tube Outlet */
+    grid-template-columns: 2fr 1fr 1.25fr 1.25fr 1.25fr 1.25fr;
+    align-items: center;
+}
+
+.thermal-grid-header {
+    background-color: #f8f9fa;
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.grid-header-cell {
+    padding: 0.75rem 1rem;
+    text-align: center;
+}
+.grid-header-cell.property-col { text-align: left; }
+.grid-header-cell.group-col { 
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+}
+.grid-header-cell.group-col:last-of-type {
+    border-right: 1px solid var(--border-color);
+}
+
+
+.thermal-grid .grid-cell {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.thermal-grid .label-cell {
+    font-weight: 500;
+}
+
+.grid-section-divider {
+    grid-column: 1 / -1; /* Span all columns */
+    height: 1.5rem; /* Creates vertical space */
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Override default bootstrap padding inside the grid */
+.thermal-grid .form-control, 
+.thermal-grid .form-select, 
+.thermal-grid .input-group {
+    height: 38px;
+}

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Report{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/report-styles.css') }}">
+{% endblock %}
+
+{% block page_title %}Heat Exchanger Performance Report{% endblock %}
+{% block page_subtitle %}Generated on: <span id="report-date"></span>{% endblock %}
+
+{% block content %}
+    <div class="print-header">
+        <img src="{{ url_for('static',filename='images/logo.jpg') }}" alt="Positron Engineering Logo" class="print-logo">
+    </div>
+
+
+        <main>
+            <!-- Header Info Table -->
+            <div class="card">
+                <table class="datasheet-table" id="header-info-table"></table>
+            </div>
+
+            <!-- Section 1: Process & Thermal Data -->
+            <div class="card">
+                <h3>1. Process & Thermal Summary</h3>
+                <div class="report-section">
+                    <div class="report-column">
+                        <h4>Shell Side (Hot Fluid)</h4>
+                        <table class="report-table" id="shell-thermal-table"></table>
+                    </div>
+                    <div class="report-column">
+                        <h4>Tube Side (Cold Fluid)</h4>
+                        <table class="report-table" id="tube-thermal-table"></table>
+                    </div>
+                </div>
+                <div class="report-section single-column">
+                     <table class="report-table" id="overall-thermal-table"></table>
+                </div>
+            </div>
+
+            <!-- Section 2: Geometric Summary -->
+            <div class="card">
+                <h3>2. Geometric Specification Summary</h3>
+                <div class="report-section">
+                    <div class="report-column">
+                        <h4>Shell & TEMA Type</h4>
+                        <table class="report-table" id="shell-geo-table"></table>
+                    </div>
+                    <div class="report-column">
+                        <h4>Tube Bundle & Baffles</h4>
+                        <table class="report-table" id="tube-geo-table"></table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Materials of Construction (Consolidated) -->
+            <div class="card">
+                <h3>3. Materials of Construction</h3>
+                <table class="report-table" id="materials-table"></table>
+            </div>
+
+            <!-- Section 4: Nozzle Schedule (Consolidated) -->
+            <div class="card">
+                <h3>4. Nozzle Schedule</h3>
+                <table class="report-table" id="nozzles-table"></table>
+            </div>
+
+            <!-- Section 5: Calculated Performance Results -->
+            <div class="card">
+                <h3>5. Calculated Performance Results</h3>
+                <div class="report-section">
+                    <!-- <div class="report-column">
+                        <h4>Kern Method Results</h4>
+                        <table class="report-table" id="kern-results-table"></table>
+                    </div> -->
+                    <div class="report-column">
+                        <h4>Bell-Delaware Method Results</h4>
+                        <table class="report-table" id="bd-results-table"></table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Design Summary & Verification -->
+            <div class="card">
+                <h3>6. Design Summary & Verification</h3>
+                <table class="report-table" id="design-summary-table"></table>
+            </div>
+
+            <!-- Section 7: Shell-Side Flow Distribution -->
+            <div class="card">
+                <h3>7. Shell-Side Flow Distribution (Bell-Delaware)</h3>
+                <table class="report-table" id="flow-dist-table"></table>
+            </div>
+
+            <!-- Section 8: Design & Safety Checks -->
+            <div class="card">
+                <h3>8. Design & Safety Checks</h3>
+                <table class="report-table" id="checks-table"></table>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="actions">
+                 <a href="/datasheet"><button class="btn-primary">Generate TEMA Datasheet</button></a>
+                 <button class="btn-secondary" onclick="window.print()">Print Report</button>
+                 <a href="/" onclick="sessionStorage.removeItem('heatExchangerData');">
+                    <button class="btn-secondary">Start New Calculation</button>
+                 </a>
+            </div>
+        </main>
+    </div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/report.js') }}"></script>
+{% endblock %}

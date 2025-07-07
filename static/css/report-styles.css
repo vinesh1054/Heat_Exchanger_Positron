@@ -1,0 +1,237 @@
+/* static/css/pages/report-styles.css (FINAL VERSION) */
+
+/* --- General & Typography --- */
+body {
+    background-color: #f8f9fa;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+/* --- HIDE PRINT-ONLY ELEMENTS ON SCREEN --- */
+.print-header {
+    display: none;
+}
+
+header h1 {
+    color: #0056b3;
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 2rem;
+}
+
+h3 {
+    color: #0056b3;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+    margin-top: 0;
+    font-size: 1.75rem;
+}
+
+h4 {
+    color: #495057;
+    font-size: 1.2rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+/* --- Card & Section Layout --- */
+.card {
+    background: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.report-section {
+    display: flex;
+    gap: 30px;
+}
+
+.report-section .report-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.report-section.single-column {
+    display: block;
+}
+
+/* --- Table Styling --- */
+.datasheet-table, .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.datasheet-table td, .report-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.report-table tr:last-child td {
+    border-bottom: none;
+}
+
+.datasheet-table tr:nth-child(even), .report-table tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.datasheet-table td:first-child, .report-table td:first-child {
+    font-weight: 500;
+    color: #495057;
+    width: 40%;
+}
+
+.report-table thead td {
+    font-weight: bold;
+    background-color: #e9ecef;
+}
+
+/* --- Action Buttons --- */
+.actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2rem;
+    padding-bottom: 2rem;
+}
+.actions button {
+    padding: 12px 25px;
+    border-radius: 5px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s ease-in-out;
+}
+.actions button:hover {
+    opacity: 0.85;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+.btn-secondary {
+    background-color: #e9ecef;
+    color: #495057;
+    border: 1px solid #ced4da;
+}
+
+/* --- Hide the print-only header by default --- */
+.print-header {
+    display: none;
+}
+
+@media print {
+    /* Define the page size and margins for a professional look */
+    @page {
+        size: A4;
+        margin: 1in;
+    }
+
+    body {
+        background-color: #fff !important;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 11pt;
+    }
+
+    body::after {
+        /* 1. Use the logo as a background image */
+        content: ""; /* Must be empty for background-image to work */
+        background-image: url('/static/images/logo.jpg'); /* <-- IMPORTANT: MAKE SURE THIS PATH IS CORRECT */
+        
+        /* 2. Control the background image's appearance */
+        background-repeat: no-repeat;
+        background-position: center center; /* Center the image within the element */
+        background-size: 50%; /* Adjust size as needed, e.g., 50% of the element's size */
+        
+        /* 3. Make the pseudo-element cover the whole page */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        
+        /* 4. Set opacity and layering */
+        opacity: 0.1; /* Adjust transparency (0.1 is 10%) */
+        z-index: -1;  /* CRITICAL: Puts the watermark behind all other content */
+        pointer-events: none;
+    }
+
+    /* --- HIDE ALL ON-SCREEN-ONLY ELEMENTS --- */
+    
+    /* CRITICAL: This is the rule that hides the sidebar */
+    .sidebar {
+        display: none !important;
+    }
+
+    /* Hide the web page header and action buttons */
+    header, .actions {
+        display: none !important;
+    }
+    
+    /* CRITICAL: Reset the main content area to fill the page */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+        /* --- SHOW AND STYLE THE PRINT-ONLY HEADER --- */
+    .print-header {
+        display: block; /* Make the header visible for print */
+        margin-bottom: 30px; /* Add some space below the logo */
+    }
+
+    .print-logo {
+        height: 40px; /* Set a small, fixed height for the logo */
+        width: auto;  /* Allow the width to adjust automatically */
+    }
+    /* --- STYLE THE PRINTED CONTENT --- */
+    
+    .card {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin-bottom: 20px;
+        background: transparent !important;
+        /* Try to keep sections from being split across two pages */
+        page-break-inside: avoid;
+    }
+
+    /* Force a page break before each section, except the very first one */
+    .card:not(:first-child) {
+        page-break-before: always;
+    }
+    
+    h3 {
+        font-size: 16pt;
+        border-bottom: 2px solid #000; /* Use a solid black line for print */
+        page-break-after: avoid; /* Keep the heading with its content */
+    }
+
+    /* Ensure all text is black for high-contrast printing */
+    * {
+        color: #000 !important;
+        background: transparent !important;
+    }
+}

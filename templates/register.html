@@ -1,0 +1,46 @@
+<!-- templates/register.html -->
+{% extends "base_auth.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+        <div class="card mt-5 shadow-sm">
+            <div class="card-body p-4">
+                
+                {% if not has_users %}
+                <!-- This section is displayed ONLY if the database is empty -->
+                <h3 class="card-title text-center mb-4">Create First Admin Account</h3>
+                <p class="text-muted text-center small">The first account created will automatically become the site administrator.</p>
+                <hr>
+                <form method="POST" action="{{ url_for('register') }}">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Admin Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Admin Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success">Create Admin Account</button>
+                    </div>
+                </form>
+
+                {% else %}
+                <!-- This section is displayed if any users already exist -->
+                <h3 class="card-title text-center mb-4">Registration Closed</h3>
+                <div class="alert alert-info text-center">
+                    New user accounts can only be created by an existing administrator from the 'Manage Users' panel.
+                </div>
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary">Go to Login Page</a>
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

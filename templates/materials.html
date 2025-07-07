@@ -1,0 +1,116 @@
+<!-- templates/materials.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Materials of Construction - HX Solver{% endblock %}
+
+{% block content %}
+    <!-- Add CSS for the Choices.js library (for the remaining dropdowns) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
+
+    <div class="page-header mb-4">
+        <h1>Materials of Construction</h1>
+        <p>Select the materials for each component. The 'Tube' and 'Bolting' materials are critical for calculations.</p>
+    </div>
+
+    <form id="materials-form">
+        <div class="row">
+            <!-- Card 1: Shell Side Materials -->
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">Shell Side Materials</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="mat_shell_cylinder" class="form-label">Shell Cylinder</label>
+                            <input type="text" class="form-control" id="mat_shell_cylinder" value="Carbon Steel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_shell_bonnet" class="form-label">Channel Cover / Bonnet</label>
+                            <input type="text" class="form-control" id="mat_shell_bonnet" value="Carbon Steel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_shell_nozzles" class="form-label">Shell Nozzles</label>
+                            <input type="text" class="form-control" id="mat_shell_nozzles" value="Carbon Steel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_baffles" class="form-label">Baffles</label>
+                            <input type="text" class="form-control" id="mat_baffles" value="Carbon Steel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_tubesheet" class="form-label">Tubesheet</label>
+                            <input type="text" class="form-control" id="mat_tubesheet" value="Carbon Steel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Tube Side Materials -->
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">Tube Side Materials</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="mat_tube" class="form-label fw-bold">Tubes (Critical)</label>
+                            <!-- This REMAINS a searchable dropdown -->
+                            <select id="mat_tube" class="form-select searchable-select">
+                                {% for name in material_names %}<option value="{{ name }}" {% if name == 'Copper' %}selected{% endif %}>{{ name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_tube_channel" class="form-label">Tube Side Channel</label>
+                            <input type="text" class="form-control" id="mat_tube_channel" value="Carbon Steel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_tube_nozzles" class="form-label">Tube Side Nozzles</label>
+                            <input type="text" class="form-control" id="mat_tube_nozzles" value="Carbon Steel">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_pass_plates" class="form-label">Pass Partition Plates</label>
+                            <input type="text" class="form-control" id="mat_pass_plates" value="Carbon Steel">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Gaskets and Connections -->
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">Gaskets & Connections</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="mat_shell_gasket" class="form-label">Shell Gasket</label>
+                            <!-- CHANGED to text input -->
+                            <input type="text" class="form-control" id="mat_shell_gasket" value="CNAF">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_tube_gasket" class="form-label">Tube Side Gasket</label>
+                            <!-- CHANGED to text input -->
+                            <input type="text" class="form-control" id="mat_tube_gasket" value="CNAF">
+                        </div>
+                        <div class="mb-3">
+                            <label for="mat_bolting" class="form-label">Bolting (Studs/Nuts)</label>
+                            <!-- This REMAINS a searchable dropdown -->
+                            <select id="mat_bolting" class="form-select searchable-select">
+                                {% for name in bolting_materials %}<option value="{{ name }}" {% if name == 'A193 B7 / A194 2H' %}selected{% endif %}>{{ name }}</option>{% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <button id="next-btn" type="button" class="btn btn-primary btn-lg px-5">Proceed to Nozzles →</button>
+        </div>
+    </form>
+{% endblock %}
+
+
+{% block scripts %}
+    <!-- Add JavaScript for the Choices.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    
+    <!-- Your page-specific scripts -->
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/materials.js') }}"></script>
+{% endblock %}

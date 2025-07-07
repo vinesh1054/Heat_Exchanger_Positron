@@ -1,0 +1,220 @@
+<!-- templates/.htmthermall -->
+{% extends "base.html" %}
+
+{% block title %}Thermal Analysis - HX Solver{% endblock %}
+
+{% block content %}
+
+    <div class="page-header mb-4">
+        <h1>Thermal Analysis</h1>
+        <p>Enter fluid properties and process conditions. The system will solve for the missing values.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover mb-0" id="thermal-form">
+                    <thead class="table-light">
+                        <tr>
+                            <th rowspan="2" style="width: 20%; vertical-align: middle;">Property</th>
+                            <th rowspan="2" style="width: 15%; vertical-align: middle;">Unit</th>
+                            <th colspan="2" class="text-center">Shell Side</th>
+                            <th colspan="2" class="text-center">Tube Side</th>
+                        </tr>
+                        <tr>
+                            <th class="text-center">Inlet</th>
+                            <th class="text-center">Outlet</th>
+                            <th class="text-center">Inlet</th>
+                            <th class="text-center">Outlet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Fluid Name -->
+                        <tr>
+                            <td><strong>Fluid Name</strong></td>
+                            <td>-</td>
+                            <td colspan="2">
+                                <select class="form-select" id="shell_fluid_name">
+                                    <option value="ISO VG 15">ISO VG 15</option>
+                                    {% for name in fluid_names %}<option value="{{ name }}">{{ name }}</option>{% endfor %}
+                                </select>
+                            </td>
+                            <td colspan="2">
+                                <select class="form-select" id="tube_fluid_name">
+                                    <option value="Water" selected>Water</option>
+                                    {% for name in fluid_names %}<option value="{{ name }}">{{ name }}</option>{% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+
+                        <!-- Flow Rate -->
+                        <tr>
+                            <td><strong>Flow Rate</strong></td>
+                            <td>
+                                <select class="form-select" id="flowrate_unit">
+                                    <option value="m3/s" selected>m³/s</option>
+                                    <option value="m3/h">m³/h</option>
+                                    <option value="lpm">L/min</option>
+                                </select>
+                            </td>
+                            <td colspan="2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="shell_flowrate" value="0.00325">
+                                    <span class="input-group-text">×</span>
+                                    <input type="text" class="form-control" id="shell_flowrate_mult" value="1" style="max-width: 60px;">
+                                </div>
+                            </td>
+                            <td colspan="2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="tube_flowrate" placeholder="Leave blank to solve">
+                                    <span class="input-group-text">×</span>
+                                    <input type="text" class="form-control" id="tube_flowrate_mult" value="1" style="max-width: 60px;">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Temperature -->
+                        <tr>
+                            <td><strong>Temperature</strong></td>
+                            <td>
+                                <select class="form-select" id="temperature_unit">
+                                    <option value="C" selected>°C</option>
+                                    <option value="F">°F</option>
+                                </select>
+                            </td>
+                            <td><input type="text" class="form-control" id="shell_inlet_temp" value="68.95"></td>
+                            <td><input type="text" class="form-control" id="shell_outlet_temp" value="45"></td>
+                            <td><input type="text" class="form-control" id="tube_inlet_temp" value="34"></td>
+                            <td><input type="text" class="form-control" id="tube_outlet_temp" placeholder="37"></td>
+                        </tr>
+
+                        <!-- ===== THIS IS THE START OF THE MISSING SECTION ===== -->
+                        <!-- Read-only Properties -->
+                        <tr>
+                            <td>Density <small class="text-muted">(kg/m³)</small></td>
+                            <td>-</td>
+                            <td><input type="text" class="form-control" id="shell_inlet_density" readonly></td>
+                            <td><input type="text" class="form-control" id="shell_outlet_density" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_inlet_density" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_outlet_density" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Viscosity <small class="text-muted">(cP)</small></td>
+                            <td>-</td>
+                            <td><input type="text" class="form-control" id="shell_inlet_viscosity" readonly></td>
+                            <td><input type="text" class="form-control" id="shell_outlet_viscosity" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_inlet_viscosity" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_outlet_viscosity" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Specific Heat <small class="text-muted">(kJ/kg.K)</small></td>
+                            <td>-</td>
+                            <td><input type="text" class="form-control" id="shell_inlet_cp" readonly></td>
+                            <td><input type="text" class="form-control" id="shell_outlet_cp" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_inlet_cp" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_outlet_cp" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Thermal Cond. <small class="text-muted">(W/m.K)</small></td>
+                            <td>-</td>
+                            <td><input type="text" class="form-control" id="shell_inlet_k" readonly></td>
+                            <td><input type="text" class="form-control" id="shell_outlet_k" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_inlet_k" readonly></td>
+                            <td><input type="text" class="form-control" id="tube_outlet_k" readonly></td>
+                        </tr>
+
+                        <!-- Other Inputs -->
+                        <tr>
+                           <td><strong>Fouling Factor</strong></td>
+                            <td>
+                                <select class="form-select" id="fouling_factor_unit">
+                                    <option value="m2hC/kcal" selected>m²h°C/kcal</option>
+                                    <option value="m2K/W">m²K/W</option>
+                                </select>
+                            </td>
+                            <td colspan="2"><input type="text" class="form-control" id="shell_fouling" value="0.00012"></td>
+                            <td colspan="2"><input type="text" class="form-control" id="tube_fouling" value="0.00035"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Design Pressure</strong></td>
+                            <td>
+                                <select class="form-select" id="design_pressure_unit">
+                                    <option value="bar" selected>bar</option>
+                                    <option value="psi">psi</option>
+                                    <option value="kPa">kPa</option>
+                                </select>
+                            </td>
+                            <td colspan="2"><input type="text" class="form-control" id="shell_design_pressure" value="10"></td>
+                            <td colspan="2"><input type="text" class="form-control" id="tube_design_pressure" value="5"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Design Temperature</strong></td>
+                            <td>
+                                <select class="form-select" id="design_temperature_unit">
+                                     <option value="C" selected>°C</option>
+                                     <option value="F">°F</option>
+                                </select>
+                            </td>
+                            <td colspan="2"><input type="text" class="form-control" id="shell_design_temp" value="100"></td>
+                            <td colspan="2"><input type="text" class="form-control" id="tube_design_temp" value="100"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Corrosion Allowance</strong></td>
+                            <td>mm</td>
+                            <td colspan="2"><input type="text" class="form-control" id="shell_corr_allow" value="1.59"></td>
+                            <td colspan="2"><input type="text" class="form-control" id="tube_corr_allow" value="0"></td>
+                        </tr>
+                        <!-- ===== THIS IS THE END OF THE MISSING SECTION ===== -->
+
+                        <!-- Heat Load -->
+                        <tr>
+                            <td><strong>Heat Load</strong></td>
+                            <td>
+                                <select class="form-select" id="heat_load_unit">
+                                    <option value="kW" selected>kW</option>
+                                    <option value="kcal/h">kcal/h</option>
+                                </select>
+                            </td>
+                            <td colspan="4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="heat_load" placeholder="Leave blank to solve">
+                                    <span class="input-group-text">×</span>
+                                    <input type="text" class="form-control" id="heat_load_mult" value="1" style="max-width: 60px;">
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Calculated Results -->
+                        <tr class="table-group-divider">
+                            <td>Bulk Temp (Hot) <small class="text-muted">(°C)</small></td>
+                            <td>-</td>
+                            <td colspan="4"><input type="text" class="form-control" id="bulk_temp_hot" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Bulk Temp (Cold) <small class="text-muted">(°C)</small></td>
+                            <td>-</td>
+                            <td colspan="4"><input type="text" class="form-control" id="bulk_temp_cold" readonly></td>
+                        </tr>
+                        <tr>
+                            <td>Est. Wall Temp <small class="text-muted">(°C)</small></td>
+                            <td>-</td>
+                            <td colspan="4"><input type="text" class="form-control" id="wall_temp" readonly></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center">
+             <div id="error-message" class="text-danger"></div>
+             <button id="solve-btn" class="btn btn-primary">Solve Thermal Balance & Proceed →</button>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/thermal.js') }}"></script>
+{% endblock %}

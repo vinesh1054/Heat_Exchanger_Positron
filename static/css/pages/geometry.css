@@ -1,0 +1,93 @@
+/* static/css/pages/geometry.css (REVISED with full control) */
+
+/* --- 1. TEMA SELECTOR CARD STYLING --- */
+.tema-card {
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
+    box-shadow: none; /* Explicitly no shadow */
+}
+
+/* FIX for TEMA Selector Text Overlap */
+.tema-select {
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-left: 45px !important;
+
+    /* Add BOTH our icon AND Bootstrap's dropdown arrow */
+    background-image: var(--bs-form-select-bg-img), url("../../images/shell_type_1.png");
+    background-position: right 0.75rem center, left 10px center;
+    background-size: 16px 12px, 24px;
+}
+
+/* Re-apply specific images, now layered with the dropdown arrow */
+.tema-b { background-image: var(--bs-form-select-bg-img), url("../../images/front_head_2.png"); }
+.tema-a { background-image: var(--bs-form-select-bg-img), url("../../images/front_head_1.png"); }
+.tema-c { background-image: var(--bs-form-select-bg-img), url("../../images/front_head_3.png"); }
+.tema-n { background-image: var(--bs-form-select-bg-img), url("../../images/front_head_4.png"); }
+.tema-e { background-image: var(--bs-form-select-bg-img), url("../../images/shell_type_1.png"); }
+.tema-u { background-image: var(--bs-form-select-bg-img), url("../../images/rear_head_1.png"); }
+.tema-s { background-image: var(--bs-form-select-bg-img), url("../../images/rear_head_2.png"); }
+.tema-t { background-image: var(--bs-form-select-bg-img), url("../../images/rear_head_3.png"); }
+.tema-w { background-image: var(--bs-form-select-bg-img), url("../../images/rear_head_5.png"); }
+
+
+/* --- 2. CONFIGURATION CARDS (Shell, Tube, Baffles) --- */
+.config-card {
+    /* THIS FILE now defines the border and shadow */
+    border: 1px solid var(--border-color);
+    border-top: 3px solid var(--primary-color);
+    box-shadow: 0 4px 12px var(--shadow-color);
+    margin-bottom: 1.5rem;
+}
+.config-card .card-header {
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+
+/* --- 3. RESULTS SECTION STYLING --- */
+#results-section {
+    background-color: #f4f7f9;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+#results-section h2 {
+    font-weight: 500;
+    margin-bottom: 1.5rem !important;
+    text-align: center;
+}
+.result-group {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+.result-group h5 {
+    padding: 1rem 1.5rem;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid var(--border-color);
+    margin: 0;
+    font-weight: 500;
+}
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    border-bottom: 1px solid #f0f3f5;
+}
+.result-group .result-item:last-child {
+    border-bottom: none;
+}
+.result-item-label {
+    color: var(--text-color);
+}
+.result-item-value {
+    font-weight: 500;
+    color: var(--primary-color);
+    font-family: monospace;
+}

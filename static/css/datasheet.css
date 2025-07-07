@@ -1,0 +1,132 @@
+/* static/css/datasheet.css */
+
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt; /* Reduced font size for more density */
+    color: #000;
+    margin: 0;
+    padding: 15px;
+}
+
+.datasheet-container {
+    background-color: #fff;
+    width: 210mm; /* A4 width */
+    min-height: 297mm; /* A4 height */
+    margin: auto;
+    padding: 10mm;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Header --- */
+.datasheet-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 10px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.header-center { text-align: center; }
+.header-center h1 { margin: 0; font-size: 14pt; }
+.header-right { text-align: right; }
+.header-info-box {
+    border: 1px solid #999;
+    padding: 4px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* --- Main Table --- */
+.datasheet-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+.datasheet-table td {
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    vertical-align: top;
+}
+
+.datasheet-table-1 {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5px;
+}
+/* NEW RULE - Use this instead */
+.datasheet-table-1 td {
+    /* Define only top and bottom borders, removing vertical lines */
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-left: none;
+    border-right: none;
+    
+    padding: 3px 5px;
+    vertical-align: top;
+}
+/* static/css/datasheet.css */
+
+/* ... (all your existing CSS rules) ... */
+
+
+/* --- NEW RULE to remove vertical lines ONLY for specific rows --- */
+/* This targets any 'td' inside a 'tr' with the 'horizontal-only' class */
+.datasheet-table tr.horizontal-only td {
+    border-left: none;
+    border-right: none;
+}
+
+/* Column widths */
+.datasheet-table tr td:nth-child(1) { width: 28%; }
+.datasheet-table tr td:nth-child(2) { width: 22%; }
+.datasheet-table tr td:nth-child(3) { width: 15%; }
+.datasheet-table tr td:nth-child(4) { width: 22%; }
+.datasheet-table tr td:nth-child(5) { width: 13%; }
+
+/* Label Column Style */
+.datasheet-table tr td:first-child { font-weight: 500; }
+
+/* Section Headers */
+.section-header {
+    font-weight: bold;
+    background-color: #e0e0e0 !important;
+    color: #000;
+    text-align: center !important;
+    border: 2px solid #000 !important;
+    border-left: 1px solid #ccc !important;
+    border-right: 1px solid #ccc !important;
+    font-size: 9pt;
+}
+
+/* Column Headers for Shell/Tube */
+.col-header {
+    font-weight: bold;
+    background-color: #f2f2f2 !important;
+    text-align: center !important;
+}
+
+/* Sketch Image */
+.tema-sketch {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 2px auto;
+}
+
+/* Status Styling */
+.status-ok { color: #155724; font-weight: bold; }
+.status-high { color: #721c24; font-weight: bold; }
+
+/* --- Footer --- */
+.datasheet-footer {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 2px solid #000;
+    font-size: 7pt;
+    text-align: center;
+}

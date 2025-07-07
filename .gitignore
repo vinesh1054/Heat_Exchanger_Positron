@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.env
+venv/
+*.DS_Store
+Project_Str.txt
+.txt
+data
+data/
+# Password file
+passwords.txt
+
+# Other sensitive files or OS files
+*.db
+.DS_Store

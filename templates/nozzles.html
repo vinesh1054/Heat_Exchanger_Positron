@@ -1,0 +1,134 @@
+<!-- templates/nozzles.html -->
+{% extends "base.html" %}
+
+{% block title %}Nozzles & Final Results - HX Solver{% endblock %}
+
+{% block content %}
+
+    <div class="page-header mb-4">
+        <h1>Nozzle Selection & Final Results</h1>
+        <p>Select nozzle sizes to calculate final pressure drops and overall performance.</p>
+    </div>
+
+    <form id="nozzles-form">
+        <!-- Shell Side Nozzles Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                Shell Side Nozzles
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Property</th>
+                                <th class="inlet-col">Inlet</th>
+                                <th class="outlet-col">Outlet</th>
+                                <th class="intermediate-col" style="display:none;">Intermediate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Nominal pipe size (in)</strong></td>
+                                <td><select id="shell_inlet_nps" class="form-select"></select></td>
+                                <td><select id="shell_outlet_nps" class="form-select"></select></td>
+                                <td class="intermediate-col" style="display:none;"><select id="shell_intermediate_nps" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Schedule</strong></td>
+                                <td><select id="shell_inlet_sch" class="form-select"><option>STD</option><option>40</option><option>XS</option><option>80</option></select></td>
+                                <td><select id="shell_outlet_sch" class="form-select"><option>STD</option><option>40</option><option>XS</option><option>80</option></select></td>
+                                <td class="intermediate-col" style="display:none;"><select id="shell_intermediate_sch" class="form-select"><option>STD</option><option>40</option><option>XS</option><option>80</option></select></td>
+                            </tr>
+                            <tr>
+                                <td>Actual OD (mm)</td>
+                                <td><input type="text" id="shell_inlet_od_mm" class="form-control" readonly></td>
+                                <td><input type="text" id="shell_outlet_od_mm" class="form-control" readonly></td>
+                                <td class="intermediate-col" style="display:none;"><input type="text" id="shell_intermediate_od_mm" class="form-control" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>Wall thickness (mm)</td>
+                                <td><input type="text" id="shell_inlet_wt_mm" class="form-control" readonly></td>
+                                <td><input type="text" id="shell_outlet_wt_mm" class="form-control" readonly></td>
+                                <td class="intermediate-col" style="display:none;"><input type="text" id="shell_intermediate_wt_mm" class="form-control" readonly></td>
+                            </tr>
+                            <tr>
+                                <td>Actual ID (mm)</td>
+                                <td><input type="text" id="shell_inlet_id_mm" class="form-control" readonly></td>
+                                <td><input type="text" id="shell_outlet_id_mm" class="form-control" readonly></td>
+                                <td class="intermediate-col" style="display:none;"><input type="text" id="shell_intermediate_id_mm" class="form-control" readonly></td>
+                            </tr>
+                             <tr>
+                                <td><strong>Momentum Limit (kg/ms2)</strong></td>
+                                <td><input type="number" id="shell_inlet_momentum_limit" class="form-control" value="2230"></td>
+                                <td><input type="number" id="shell_outlet_momentum_limit" class="form-control" value="5950"></td>
+                                <td class="intermediate-col" style="display:none;"><input type="number" id="shell_intermediate_momentum_limit" class="form-control" value="5950"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tube Side Nozzles Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                Tube Side Nozzles
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                     <table class="table table-bordered mb-0">
+                         <thead class="table-light">
+                            <tr>
+                                <th>Property</th>
+                                <th class="inlet-col">Inlet</th>
+                                <th class="outlet-col">Outlet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Nominal pipe size (in)</strong></td>
+                                <td><select id="tube_inlet_nps" class="form-select"></select></td>
+                                <td><select id="tube_outlet_nps" class="form-select"></select></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Schedule</strong></td>
+                                <td><select id="tube_inlet_sch" class="form-select"><option>STD</option><option>40</option><option>XS</option><option>80</option></select></td>
+                                <td><select id="tube_outlet_sch" class="form-select"><option>STD</option><option>40</option><option>XS</option><option>80</option></select></td>
+                            </tr>
+                            <tr>
+                                <td>Actual ID (mm)</td>
+                                <td><input type="text" id="tube_inlet_id_mm" class="form-control" readonly></td>
+                                <td><input type="text" id="tube_outlet_id_mm" class="form-control" readonly></td>
+                            </tr>
+                             <tr>
+                                <td><strong>Momentum Limit (kg/ms2)</strong></td>
+                                <td><input type="number" id="tube_inlet_momentum_limit" class="form-control" value="5950"></td>
+                                <td><input type="number" id="tube_outlet_momentum_limit" class="form-control" value="5950"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center my-4">
+            <button id="calculate-btn" type="button" class="btn btn-primary btn-lg px-5">Calculate Final Performance</button>
+        </div>
+    </form>
+
+    <section id="results-section" style="display:none;">
+        <h2 class="text-center mb-4">Final Performance Results</h2>
+        <div id="results-container" class="row g-4"></div>
+    </section>
+
+    <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+    
+{% endblock %}
+
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ui-helpers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/nozzles.js') }}"></script>
+{% endblock %}

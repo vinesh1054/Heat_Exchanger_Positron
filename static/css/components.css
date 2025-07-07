@@ -1,0 +1,59 @@
+/* static/css/components.css (REVISED to be less aggressive) */
+
+/* 
+  The generic .card class now ONLY defines background color and border-radius.
+  It NO LONGER defines a border or box-shadow, allowing page-specific
+  CSS to control those properties.
+*/
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px; 
+}
+
+/* These styles are good defaults and can remain global */
+.card-header {
+    background-color: #fbfcfd;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--header-color);
+}
+.card-body {
+    padding: 1.5rem;
+}
+.card-footer {
+    background-color: #fbfcfd;
+    border-top: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+}
+
+/* The rest of the file remains the same */
+.form-control, .form-select {
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 0.9rem;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
+.form-control[readonly] {
+    background-color: #f8f9fa;
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 8px 18px;
+    transition: all 0.2s;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+}

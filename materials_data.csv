@@ -1,0 +1,67 @@
+Component,Material_Name,Thermal_Conductivity_W_mK,Notes
+Shell Cylinder,Carbon Steel,52.0,Most common, general purpose (e.g., SA-516-70)
+Shell Cylinder,Low Alloy Steel,45.0,Higher temperature/pressure service (e.g., SA-387)
+Shell Cylinder,SS304 / 304L,16.2,Corrosion resistance, food grade
+Shell Cylinder,SS316 / 316L,16.2,Enhanced corrosion/chloride resistance
+Shell Cylinder,Duplex Stainless Steel,15.0,High strength and chloride corrosion resistance
+Shell Cylinder,Monel 400,22.0,Seawater and caustic service
+Shell Cylinder,Inconel 625,10.0,High temperature and severe corrosion
+Shell Cylinder,Titanium,22.0,Excellent resistance to seawater and chlorides
+Channel Cover / Bonnet,Carbon Steel,52.0,Matches shell material
+Channel Cover / Bonnet,Low Alloy Steel,45.0,Matches shell material
+Channel Cover / Bonnet,SS304 / 304L,16.2,Matches shell material
+Channel Cover / Bonnet,SS316 / 316L,16.2,Matches shell material
+Shell Nozzles,Carbon Steel,52.0,Matches shell material
+Shell Nozzles,Low Alloy Steel,45.0,Matches shell material
+Shell Nozzles,SS304 / 304L,16.2,Matches shell material
+Shell Nozzles,SS316 / 316L,16.2,Matches shell material
+Baffles,Carbon Steel,,Most common, low cost
+Baffles,Brass,120.0,Used with copper/brass tubes
+Baffles,SS304 / 304L,,Corrosion resistance, avoids contamination
+Baffles,Monel 400,,Seawater applications
+Tubesheet,Carbon Steel,52.0,Matches carbon steel shell/channel
+Tubesheet,SS304 / 304L,16.2,When corrosion resistance is needed
+Tubesheet,SS316 / 316L,16.2,When corrosion resistance is needed
+Tubesheet,Naval Brass,115.0,Common with brass/copper tubes
+Tubesheet,Muntz Metal,125.0,Alternative to naval brass, lower cost
+Tubesheet,Copper-Nickel (90/10),40.0,Used with copper-nickel tubes
+Tubesheet,Monel 400,22.0,Used in seawater exchangers
+Tubesheet,Titanium,22.0,Used with titanium tubes
+Tubesheet,Clad Steel (CS-SS),,Cost-effective corrosion resistance on tube side
+Tubes (Critical),Carbon Steel,52.0,General purpose, oil/gas service (e.g., SA-179)
+Tubes (Critical),Copper,401.0,High thermal conductivity, not for ammonia
+Tubes (Critical),Admiralty Brass,110.0,Good for fresh/brackish cooling water
+Tubes (Critical),Aluminium Brass,100.0,Good for seawater, better erosion resistance
+Tubes (Critical),Copper-Nickel (90/10),40.0,Excellent for seawater service
+Tubes (Critical),Copper-Nickel (70/30),29.0,Higher strength/velocity seawater service
+Tubes (Critical),SS304 / 304L,16.2,General corrosion resistance
+Tubes (Critical),SS316 / 316L,16.2,Better pitting resistance than 304
+Tubes (Critical),Duplex Stainless Steel,15.0,Resists chloride stress corrosion cracking
+Tubes (Critical),Low Alloy Steel,45.0,High temperature process fluids (e.g., SA-213)
+Tubes (Critical),Inconel 625,10.0,High temperature, acid/seawater service
+Tubes (Critical),Titanium,22.0,Effectively immune to seawater corrosion
+Tube Side Channel,Carbon Steel,52.0,Matches tube side fluid requirements
+Tube Side Channel,Low Alloy Steel,45.0,Matches tube side fluid requirements
+Tube Side Channel,SS304 / 304L,16.2,Matches tube side fluid requirements
+Tube Side Channel,SS316 / 316L,16.2,Matches tube side fluid requirements
+Tube Side Nozzles,Carbon Steel,52.0,Matches channel material
+Tube Side Nozzles,Low Alloy Steel,45.0,Matches channel material
+Tube Side Nozzles,SS304 / 304L,16.2,Matches channel material
+Tube Side Nozzles,SS316 / 316L,16.2,Matches channel material
+Pass Partition Plates,Carbon Steel,,Most common
+Pass Partition Plates,Brass,120.0,Compatible with brass tubes/tubesheet
+Pass Partition Plates,SS304 / 304L,,Compatible with stainless tubes/tubesheet
+Shell Gasket,CNAF,,General utility, low pressure/temp
+Shell Gasket,Flexible Graphite,,High temperature, good chemical resistance
+Shell Gasket,Spiral Wound - Graphite Filled,,General purpose, moderate pressure/temp
+Shell Gasket,Spiral Wound - PTFE Filled,,Excellent chemical resistance, temp limited
+Shell Gasket,PTFE,,Excellent chemical resistance, temp limited
+Tube Side Gasket,CNAF,,General utility, low pressure/temp
+Tube Side Gasket,Flexible Graphite,,High temperature, good chemical resistance
+Tube Side Gasket,Spiral Wound - Graphite Filled,,General purpose, moderate pressure/temp
+Tube Side Gasket,Spiral Wound - PTFE Filled,,Excellent chemical resistance, temp limited
+Tube Side Gasket,PTFE,,Excellent chemical resistance, temp limited
+Bolting (Studs/Nuts),A193 B7 / A194 2H,,Standard for carbon steel flanges, moderate temp
+Bolting (Studs/Nuts),A193 B8 / A194 8,,Stainless steel for corrosive service (304 SS)
+Bolting (Studs/Nuts),A193 B8M / A194 8M,,Stainless steel for more severe corrosion (316 SS)
+Bolting (Studs/Nuts),A320 L7 / A194 7,,Low temperature carbon steel service

@@ -1,0 +1,65 @@
+<!-- templates/customer.html (CORRECTED AND FINAL) -->
+{% extends "base.html" %}
+
+{% block title %}Project Details - HX Solver{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block page_title %}Project Details{% endblock %}
+{% block page_subtitle %}Enter project and customer information to begin.{% endblock %}
+
+{% block content %}
+    <!-- The content now starts directly with the card -->
+    <div class="card">
+        <div class="card-header">
+            Project Information
+        </div>
+        <div class="card-body">
+            <!-- For better styling, use Bootstrap's table classes -->
+            <table class="table table-borderless align-middle">
+                <tbody>
+                    <tr>
+                        <th scope="row" style="width: 25%;">Company</th>
+                        <td><input type="text" class="form-control" id="cust_company"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Location</th>
+                        <td><input type="text" class="form-control" id="cust_location"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Service of Unit</th>
+                        <td><input type="text" class="form-control" id="cust_service"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Item No.</th>
+                        <td><input type="text" class="form-control" id="cust_item_no"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Your Reference</th>
+                        <td><input type="text" class="form-control" id="cust_your_ref"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Our Reference</th>
+                        <td><input type="text" class="form-control" id="cust_our_ref"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Revision No.</th>
+                        <td><input type="text" class="form-control" id="cust_rev_no"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Job No.</th>
+                        <td><input type="text" class="form-control" id="cust_job_no"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ url_for('thermal_page') }}" id="next-btn" class="btn btn-primary">Save & Proceed to Thermal Analysis →</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/customer.js') }}"></script>
+{% endblock %}

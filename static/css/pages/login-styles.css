@@ -1,0 +1,243 @@
+/* Import Google Font (Poppins) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+/* --- Global & Container Styles --- */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    /* CREATIVE: Adds a subtle blueprint grid to the entire background */
+    background-color: #f4f7f9;
+    background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="%23e0e6ed" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+}
+
+.page-logo-link {
+  position: absolute; /* Position it relative to the viewport */
+  top: 40px;          /* 40px from the top */
+  left: 40px;         /* 40px from the left */
+  z-index: 10;        /* Ensure it's above other elements */
+}
+
+.page-logo-link img {
+  height: 50px; /* Control the logo height */
+  width: auto;    /* Maintain aspect ratio */
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* --- The Main Login Panel --- */
+.login-panel {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    min-height: 500px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+/* --- Column Layout --- */
+.login-form-column {
+    flex-basis: 45%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2; /* Ensures form is on top */
+}
+
+.login-image-column {
+    flex-basis: 55%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative; /* CRITICAL for layering pseudo-elements */
+}
+
+/* --- CREATIVE: Layered Background for Image Column --- */
+.login-image-column::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* The "heat exchange" gradient */
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1), rgba(31, 1, 91, 0.15));
+    z-index: 0;
+}
+.login-image-column::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 250px; /* Size of the logo */
+    height: 250px;
+    /* Faded company logo in the background */
+    background-image: url("{{ url_for('static', filename='images/logo.jpg') }}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.login-image-column img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    position: relative; /* To ensure it's on top of the pseudo-elements */
+    z-index: 1;
+    /* A subtle drop-shadow to lift the image off the background */
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.2));
+     transform: scale(1.18); /* Make the image 40% larger */
+}
+
+/* --- Form Element Styling (with Polished Interactions) --- */
+.login-form-column h1 {
+    font-size: 32px;
+    font-weight: 700; /* Bolder for more impact */
+    color: #1e2a38;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-form-column .subtitle {
+    font-size: 14px;
+    color: #5a6877;
+    margin: 0 0 30px 0;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #181818;
+    margin-bottom: 8px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 14px;
+    border: 1px solid #dce3e9;
+    border-radius: 10px;
+    background-color: #f9fafb;
+    transition: all 0.3s ease;
+}
+
+/* CREATIVE: Glowing focus effect */
+.form-group input:focus {
+    outline: none;
+    border-color: #EA454C;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(234, 69, 76, 0.1);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 12px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+a.forgot-password, a.register-link {
+    color: #181818;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+a.forgot-password:hover, a.register-link:hover {
+    color: #EA454C;
+}
+
+/* CREATIVE: More satisfying button with glow on hover */
+.btn-signin {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    background-color: #1f003e;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-signin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(234, 69, 76, 0.3);
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #595959;
+}
+.register-link a {
+    color: #18013d;
+    font-weight: 500;
+}
+
+/* --- Flash Messages --- */
+.flash-messages {
+    margin-bottom: 15px;
+}
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Add this CSS to your login-styles.css file */
+
+.login-logo {
+  width: 200px;         /* Set the width of your logo. Adjust as needed. */
+  height: auto;         /* Keeps the aspect ratio correct */
+  margin-bottom: 30px;  /* Adds some nice space between the logo and the title */
+  display: block;       /* Ensures margin is applied correctly */
+}
+
+
+/* --- Responsive Design for Smaller Screens --- */
+@media (max-width: 992px) {
+    .login-panel {
+        flex-direction: column;
+        height: auto;
+        max-width: 450px;
+    }
+    
+    .login-image-column {
+        display: none;
+    }
+
+    .login-form-column {
+        flex-basis: 100%;
+    }
+}

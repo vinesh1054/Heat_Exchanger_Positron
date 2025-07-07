@@ -1,0 +1,22 @@
+# Core web framework
+Flask
+
+# Production web server for Render
+gunicorn
+
+# For data handling (.csv files)
+pandas
+
+# For numerical calculations
+numpy
+
+# For advanced scientific calculations (solvers, etc.)
+scipy
+
+# Optional: if you generate any plots
+matplotlib
+
+Flask-Login
+Flask-SQLAlchemy
+Werkzeug
+psycopg2-binary

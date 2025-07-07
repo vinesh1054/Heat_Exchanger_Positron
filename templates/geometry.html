@@ -1,0 +1,142 @@
+<!-- templates/geometry.html (FINAL with corrected responsiveness) -->
+{% extends "base.html" %}
+
+{% block title %}Geometry & Performance - HX Solver{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/geometry.css') }}">
+{% endblock %}
+
+{% block page_title %}Geometry & Performance{% endblock %}
+{% block page_subtitle %}Define the heat exchanger's physical construction and calculate its performance.{% endblock %}
+
+{% block content %}
+
+    <!-- TEMA Exchanger Designation Card -->
+    <div class="card mb-4 tema-card">
+        <div class="card-header">
+            TEMA Exchanger Designation
+        </div>
+        <div class="card-body">
+            <div class="tema-selectors">
+                <div class="row">
+                    <!-- 
+                      =====================================================
+                      THE RESPONSIVE FIX IS APPLIED HERE
+                      Changed from col-md-4 to the more specific set below.
+                      =====================================================
+                    -->
+                    <div class="col-lg-4 col-md-6 col-12 mb-3 mb-md-0">
+                        <div class="form-group">
+                            <label for="front_head_type" class="form-label">Front Head Type</label>
+                            <select id="front_head_type" class="form-select tema-select">
+                                <option value="B" class="tema-b" selected>B - Bonnet (integral cover)</option>
+                                <option value="A" class="tema-a">A - Channel and removable cover</option>
+                                <option value="C" class="tema-c">C - Channel integral with tubesheet</option>
+                                <option value="N" class="tema-n">N - Channel integral with tubesheet, removable cover</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12 mb-3 mb-md-0">
+                        <div class="form-group">
+                            <label for="shell_type" class="form-label">Shell Type</label>
+                            <select id="shell_type" class="form-select tema-select">
+                                <option value="E" class="tema-e" selected>E - One-pass shell</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12">
+                         <div class="form-group">
+                            <label for="rear_head_type" class="form-label">Rear Head Type</label>
+                            <select id="rear_head_type" class="form-select tema-select">
+                                <option value="U" class="tema-u" selected>U - U-tube bundle</option>
+                                <option value="S" class="tema-s">S - Floating head with backing device</option>
+                                <option value="T" class="tema-t">T - Pull-through floating head</option>
+                                <option value="W" class="tema-w">W - Externally sealed floating tubesheet</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Properties Cards (No changes needed below this line) -->
+    <div class="row">
+        <!-- Shell Configuration Card -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 config-card">
+                <div class="card-header">Shell Configuration</div>
+                <div class="card-body">
+                    <div class="mb-3"><label for="shells_in_series" class="form-label">Shells in Series</label><select id="shells_in_series" class="form-select">{% for i in range(1, 21) %}<option value="{{ i }}" {% if i == 1 %}selected{% endif %}>{{ i }}</option>{% endfor %}</select></div>
+                    <div class="mb-3"><label for="shells_in_parallel" class="form-label">Shells in Parallel</label><select id="shells_in_parallel" class="form-select">{% for i in range(1, 21) %}<option value="{{ i }}" {% if i == 1 %}selected{% endif %}>{{ i }}</option>{% endfor %}</select></div>
+                    <div class="mb-3"><label for="shell_diameter" class="form-label">Shell Inner Diameter (mm)</label><input type="text" id="shell_diameter" class="form-control" value="257.4"></div>
+                    <div class="mb-3"><label for="shell_thickness" class="form-label">Shell Thickness (mm)</label><input type="text" id="shell_thickness" class="form-control" value="7.8"></div>
+                    <div class="mb-3"><label for="orientation" class="form-label">Orientation</label><select id="orientation" class="form-select"><option value="Horizontal" selected>Horizontal</option><option value="Vertical">Vertical</option></select></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tube Bundle Card -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 config-card">
+                <div class="card-header">Tube Bundle</div>
+                <div class="card-body">
+                    <div class="mb-3"><label for="tube_od" class="form-label">Tube Outer Diameter (mm)</label><input type="text" id="tube_od" class="form-control" value="9.52"></div>
+                    <div class="mb-3"><label for="tube_thickness" class="form-label">Tube Thickness (mm)</label><input type="text" id="tube_thickness" class="form-control" value="0.88"></div>
+                    <div class="mb-3"><label for="tube_length" class="form-label">Tube Effective Length (m)</label><input type="text" id="tube_length" class="form-control" value="2.480"></div>
+                    <div class="mb-3"><label for="tube_pitch" class="form-label">Tube Pitch (mm)</label><input type="text" id="tube_pitch" class="form-control" value="12.6"></div>
+                    <div class="mb-3"><label for="tube_layout" class="form-label">Tube Layout</label><select id="tube_layout" class="form-select"><option value="Triangular" selected>Triangular</option><option value="Square">Square</option></select></div>
+                    <div class="mb-3"><label for="num_tubes" class="form-label">Number of Tubes</label><input type="text" id="num_tubes" class="form-control" value="264"></div>
+                    <div class="mb-3"><label for="num_passes" class="form-label">Number of Tube Passes</label><input type="text" id="num_passes" class="form-control" value="2">    <div id="passes-validation-alert" class="form-text text-danger mt-1"></div>
+</div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Baffles & Clearances Card -->
+        <div class="col-lg-4 mb-4">
+            <div class="card h-100 config-card">
+                <div class="card-header">Baffles & Clearances</div>
+                <div class="card-body">
+                    <div class="mb-3"><label for="baffle_type" class="form-label">Baffle Type</label><select id="baffle_type" class="form-select"><option value="Single Segmental" selected>Single Segmental</option><option value="Double Segmental">Double Segmental</option></select></div>
+                    <div class="mb-3"><label for="baffle_spacing" class="form-label">Baffle Spacing (mm)</label><input type="text" id="baffle_spacing" class="form-control" value="145"></div>
+                    <div class="mb-3"><label for="baffle_cut" class="form-label">Baffle Cut (%)</label><input type="text" id="baffle_cut" class="form-control" value="25"></div>
+                    <div class="mb-3"><label for="shell_baffle_clearance" class="form-label">Shell-Baffle Clearance (mm)</label><input type="text" id="shell_baffle_clearance" class="form-control" value="3.5"></div>
+                    <div class="mb-3"><label for="tube_baffle_clearance" class="form-label">Tube-Baffle Clearance (mm)</label><input type="text" id="tube_baffle_clearance" class="form-control" value="0.8"></div>
+                    <div class="mb-3"><label for="num_sealing_strips" class="form-label">Sealing Strips (pairs)</label><input type="text" id="num_sealing_strips" class="form-control" value="0"></div>
+                    <div class="mb-3"><label for="pass_layout" class="form-label">Pass Layout</label><select id="pass_layout" class="form-select"><option value="none" selected>None</option><option value="quadrant">Quadrant</option><option value="ribbon">Ribbon</option></select></div>
+                    <div id="lane-width-container" class="mb-3" style="display: none;"><label for="pass_lane_width" class="form-label">Pass Lane Width (mm)</label><input type="text" id="pass_lane_width" class="form-control" placeholder=""></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Actions and Results Section -->
+    <!-- <div class="text-center my-4">
+        <button id="calculate-btn" class="btn btn-primary btn-lg px-5">Calculate Performance</button>
+    </div> -->
+
+    <button id="calculate-and-proceed-btn" class="btn btn-success btn-lg px-5">Save & Proceed to Materials →</button>
+
+    <!-- <section id="results-section" style="display:none;">
+        <h2 class="text-center">Calculation Results</h2>
+        <div id="results-container">
+         
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('materials_page') }}" id="proceed-btn" class="btn btn-success btn-lg">Proceed to Materials →</a>
+        </div>
+    </section> -->
+    
+    <div id="error-message" class="alert alert-danger mt-3" style="display: none;"></div>
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/ui-helpers.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/geometry.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tema-selector.js') }}"></script>
+{% endblock %}
