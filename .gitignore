@@ -13,3 +13,5 @@ passwords.txt
 # Other sensitive files or OS files
 *.db
 .DS_Store
+
+Readme1.md
