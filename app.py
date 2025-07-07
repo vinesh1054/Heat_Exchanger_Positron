@@ -78,7 +78,9 @@ app = Flask(__name__)
 # Reads the database URL and secret key from Render's environment variables
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 # Use a local SQLite database for testing
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key-for-local-dev')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -106,21 +108,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-# # IMPORTANT: Set a secret key for session management. Change this to a random string.
-# app.config['SECRET_KEY'] = 'a-very-secret-and-random-string' 
-
-# # --- Database Setup ---
-# basedir = os.path.abspath(os.path.dirname(__file__))
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'users.db')
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
-
-# # --- Login Manager Setup ---
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# # If a user tries to access a protected page without being logged in,
-# # redirect them to the login page.
-# login_manager.login_view = 'login'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -201,12 +188,7 @@ def get_fluid_properties(fluid_name, temp):
         if oil_df.empty: return {}
         
         density = np.interp(temp, oil_df['temperature'], oil_df['density'])
-        
-        ### --- THIS IS THE FIX --- ###
-        # The CSV stores oil viscosity in Pa.s. We must convert it to cP.
-        # 1 Pa.s = 1000 cP.
-        # viscosity_pas = np.interp(temp, oil_df['temperature'], oil_df['viscosity'])
-        # viscosity = viscosity_pas * 1000  # Convert to cP
+
         viscosity_pas = np.interp(temp, oil_df['temperature'], oil_df['viscosity'])
         viscosity = viscosity_pas * 1000  # Convert to cP
 
@@ -275,18 +257,6 @@ def create_dataframe_from_json(data):
     return pd.DataFrame(d).set_index('Property Name')
 
 
-
-# --- Authentication Routes ---
-
-# @app.route('/login', methods=['GET', 'POST'])
-# def login():
-#     if current_user.is_authenticated:
-#         return redirect(url_for('customer_page'))
-    
-#     # ... (your form processing logic here) ...
-
-#     # Render the new login page template
-#     return render_template('login.html') 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -398,12 +368,6 @@ def delete_user(user_id):
     return redirect(url_for('manage_users'))
 
 
-
-
-# --- Page Rendering Routes ---
-# @app.route('/')
-# def customer_page(): # The root now serves the customer page
-#     return render_template('customer.html')
 
 @app.route('/')
 def home_page():
@@ -617,12 +581,6 @@ def api_calculate_final_performance():
 
 
         
-        # kern_results_per_shell = calculate_all_performance(df_per_shell, temp_geo_props_for_calc, tube_viscosities, calc_U=False, calc_dP=True)
-        # bd_htc_per_shell = calculate_bell_delaware_htc(df_per_shell, geo_props)
-        # bd_common_params = get_common_bd_params(df_per_shell, geo_props)
-        # flow_fractions = calculate_flow_fractions(bd_common_params, geo_props)
-        # bd_dp_per_shell = calculate_bell_delaware_dp(df_per_shell, geo_props, nozzle_data)
-        
         # --- 4. ASSEMBLE FINAL SYSTEM-WIDE RESULTS ---
         final_results = {}
 
@@ -716,31 +674,6 @@ def api_calculate_final_performance():
         traceback.print_exc()
         return jsonify({"error": f"An internal error occurred: {e}"}), 500
 
-# # Helper function for momentum to keep the main route cleaner
-# def calculate_momentum_checks(df, nozzle_data, thermal_data):
-#     LIMIT_INLET_NO_IMPINGEMENT = 2230; LIMIT_WITH_IMPINGEMENT_OR_OUTLET = 5950
-#     rho_hot = df.loc[find_property_label(df.index, 'Density'), 'Hot Fluid']; V_dot_hot = to_num(thermal_data.get('shell_flowrate'))
-#     rho_cold = df.loc[find_property_label(df.index, 'Density'), 'Cold Fluid']; V_dot_cold = to_num(thermal_data.get('tube_flowrate'))
-#     momentum_checks = {}
-#     flow_unit = thermal_data.get('flowrate_unit', 'm3/s')
-#     # flow_rate = get_si_flow_rate(flow_rate, flow_unit)
-
-#     def calculate_momentum(density, flow_rate, nozzle_id_mm):
-#         if pd.isna(density) or pd.isna(flow_rate) or pd.isna(nozzle_id_mm) or nozzle_id_mm <= 0: return np.nan
-#         flow_rate = get_si_flow_rate(flow_rate, flow_unit)
-#         #
-#         area = (np.pi / 4) * (nozzle_id_mm / 1000)**2; velocity = flow_rate / area
-#         return density * velocity**2
-#     for side in ['shell', 'tube']:
-#         for loc in ['inlet', 'outlet', 'intermediate']:
-#             nozzle = nozzle_data.get(side, {}).get(loc)
-#             if nozzle:
-#                 nozzle_id = to_num(nozzle.get('id_mm'))
-#                 V_dot_hot = get_si_flow_rate(V_dot_hot, flow_unit)
-#                 if side == 'shell': value = calculate_momentum(rho_hot, V_dot_hot, nozzle_id); limit = LIMIT_INLET_NO_IMPINGEMENT if loc == 'inlet' else LIMIT_WITH_IMPINGEMENT_OR_OUTLET
-#                 else: value = calculate_momentum(rho_cold, V_dot_cold, nozzle_id); limit = LIMIT_WITH_IMPINGEMENT_OR_OUTLET
-#                 momentum_checks[f"{side}_{loc}"] = {"value": value, "limit": limit}
-#     return momentum_checks
 
 def calculate_momentum_checks(df, nozzle_data, thermal_data):
     LIMIT_INLET_NO_IMPINGEMENT = 2230
