@@ -84,7 +84,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key-for-local-dev')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+
+
 db = SQLAlchemy(app)
+# Place this in app.py after your db = SQLAlchemy(app) line
+#to create tables in render sql
+@app.cli.command("create-tables")
+def create_tables():
+    """Creates all database tables."""
+    db.create_all()
+    print("Database tables created!")
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = "You must be logged in to access this page."
@@ -255,6 +265,7 @@ def create_dataframe_from_json(data):
          ]}
     
     return pd.DataFrame(d).set_index('Property Name')
+
 
 
 
