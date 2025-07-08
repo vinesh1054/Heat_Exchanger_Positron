@@ -91,7 +91,8 @@
                             <label for="mat_bolting" class="form-label">Bolting (Studs/Nuts)</label>
                             <!-- This REMAINS a searchable dropdown -->
                             <select id="mat_bolting" class="form-select searchable-select">
-                                {% for name in bolting_materials %}<option value="{{ name }}" {% if name == 'A193 B7 / A194 2H' %}selected{% endif %}>{{ name }}</option>{% endfor %}
+                                <!-- {% for name in bolting_materials %}<option value="{{ name }}" {% if name == 'A193 B7 / A194 2H' %}selected{% endif %}>{{ name }}</option>{% endfor %} -->
+                                 <input type="text" class="form-control" id="mat_tube_gasket" value="A193 B7 / A194 2H">
                             </select>
                         </div>
                     </div>

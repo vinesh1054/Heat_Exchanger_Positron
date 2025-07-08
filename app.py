@@ -78,8 +78,8 @@ app = Flask(__name__)
 # Reads the database URL and secret key from Render's environment variables
 # app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 # Use a local SQLite database for testing
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///test.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1)
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'default-secret-key-for-local-dev')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -89,11 +89,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 # Place this in app.py after your db = SQLAlchemy(app) line
 # to create tables in render sql
-@app.cli.command("create-tables")
-def create_tables():
-    """Creates all database tables."""
-    db.create_all()
-    print("Database tables created!")
+# @app.cli.command("create-tables")
+# def create_tables():
+#     """Creates all database tables."""
+#     db.create_all()
+#     print("Database tables created!")
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -589,11 +589,14 @@ def api_calculate_final_performance():
         bd_common_params = get_common_bd_params(df_per_shell, geo_props, thermal_data_per_shell)
         flow_fractions = calculate_flow_fractions(bd_common_params, geo_props)
         bd_dp_per_shell = calculate_bell_delaware_dp(df_per_shell, geo_props, nozzle_data, thermal_data_per_shell)
-
+        unit = thermal_data.get('flowrate_unit', 'm3/s')
+        # unit_lst = {}
+        # unit_lst['flow_unit'] = str(unit)
 
         
         # --- 4. ASSEMBLE FINAL SYSTEM-WIDE RESULTS ---
         final_results = {}
+        # final_results["flow_unit"] = str(unit)
 
         # a) Assemble U-Values (these are per-shell and don't change)
         h_cold = kern_results_per_shell.get('Tube-Side h (W/m2.K)'); h_hot_kern = kern_results_per_shell.get('Shell-Side h (Kern Method) (W/m2.K)')
@@ -612,12 +615,19 @@ def api_calculate_final_performance():
             inv_U_clean_bd = (1 / bd_htc_per_shell) + Rw + (Do / (Di * h_cold)); U_clean_bd = 1 / inv_U_clean_bd if inv_U_clean_bd > 0 else np.nan
             if pd.notna(U_clean_bd): inv_U_dirty_bd = (1/U_clean_bd) + ff_hot_si + (ff_cold_si * Do / Di if Di > 0 else 0); U_dirty_bd = 1 / inv_U_dirty_bd if inv_U_dirty_bd > 0 else np.nan
         final_results["bd_u_clean"] = U_clean_bd; final_results["bd_u_dirty"] = U_dirty_bd
+        final_results["u_clean"] = (U_clean_kern+U_clean_bd)/2
+        u_dirty = (U_dirty_kern+U_dirty_bd)/2
+
+        final_results["u_dirty"] = (U_dirty_kern+U_dirty_bd)/2
+        # final_results["u_dirty"] = (U_dirty_bd)
 
         # b) Calculate Total Pressure Drop
         final_results["kern_dp_shell"] = kern_results_per_shell.get('Shell-Side Pressure Drop (kPa)', 0) * N_series
         final_results["kern_dp_tube"] = kern_results_per_shell.get('Tube-Side Pressure Drop (kPa)', 0) * N_series
         final_results["bd_dp_shell"] = bd_dp_per_shell * N_series
+        final_results["dp_shell"] = ((kern_results_per_shell.get('Shell-Side Pressure Drop (kPa)', 0) * N_series) + (bd_dp_per_shell * N_series))/2
         # final_results["bd_dp_shell"] = calculate_bell_delaware_dp.get()
+        final_results["m_hot"] = kern_results_per_shell.get('m_dot_hotti')
         
         # c) Design Summary & Verification (uses total system values)
         t_hot_in = to_num(thermal_data.get('shell_inlet_temp')); t_hot_out = to_num(thermal_data.get('shell_outlet_temp'))
@@ -660,7 +670,13 @@ def api_calculate_final_performance():
         if pd.notna(U_dirty_bd) and U_dirty_bd > 0 and mtd_corrected > 0:
             A_req_bd = Q_watts / (U_dirty_bd * mtd_corrected)
             design_summary["A_req_bd"] = A_req_bd
-            design_summary["margin_bd"] = ((A_actual_total - A_req_bd) / A_req_bd) * 100 if A_req_bd > 0 else np.nan
+            # A_req = (A_req_kern + A_req_bd)/2
+            A_req1 = (Q_watts / (u_dirty * mtd_corrected))
+            A_req = (Q_watts / (U_dirty_bd * mtd_corrected))
+            design_summary["A_req"] = A_req1
+            design_summary["margin_bd"] = ((A_actual_total - A_req_bd) / A_req_bd) * 100 if A_req1 > 0 else np.nan
+            # design_summary["margin_bd"] = ((A_actual_total - A_req1) / A_req1) * 100 if A_req1 > 0 else np.nan
+            # design_summary["margin_bd"] = ((A_actual_total - A_req_bd) / A_req_bd) * 100 if A_req_bd > 0 else np.nan
             # design_summary["margin_bd"] = U_dirty_bd/(Q_watts / (A_actual_total * mtd_corrected)) if A_req_bd > 0 else np.nan
         
         final_results["design_summary"] = design_summary

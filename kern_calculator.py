@@ -32,7 +32,7 @@ def calculate_all_performance(solved_df, geo_props, tube_viscosities, thermal_da
         # rho_cold = float(solved_df.loc[find_property_label(solved_df.index, 'Density'), 'Cold Fluid'])
         
         # --- FIX: Convert flow rates to SI units before use ---
-        flow_unit = thermal_data.get('flowrate_unit', 'm3/s')
+        # flow_unit = thermal_data.get('flowrate_unit', 'm3/s')
 
         # --- THIS IS THE FIX ---
         # Get the unit string from the thermal_data dictionary passed from app.py
@@ -114,6 +114,7 @@ def calculate_all_performance(solved_df, geo_props, tube_viscosities, thermal_da
         results['Shell-Side Reynolds No. (Kern)'] = Re_shell_kern
         results['Shell-Side Prandtl No.'] = Pr_shell
         results['Shell-Side h (Kern Method) (W/m2.K)'] = h_hot
+        results['m_dot_hotti'] = V_dot_hot * rho_hot
         flow_paras['Re_shell'] = Re_shell_kern
         flow_paras['Pr_shell'] = Pr_shell
 
@@ -127,7 +128,7 @@ def calculate_all_performance(solved_df, geo_props, tube_viscosities, thermal_da
             
             v_tube = Gt / rho_cold if rho_cold > 0 else 0
             dP_friction_tube = f_tube * (L_tube * Np / Di) * (rho_cold * v_tube**2 / 2) if Di > 0 else 0
-            dP_return_tube = 2.5 * Np * (rho_cold * v_tube**2 / 2)
+            dP_return_tube = 4 * Np * (rho_cold * v_tube**2 / 2)
             
             D_nozzle_tube_m = geo_props.get('tube_nozzle_diameter')
             dP_nozzle_tube = 0

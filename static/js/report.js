@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 1. Thermal Data
     const shellThermalBody = document.getElementById('shell-thermal-table').createTBody();
     createRow(shellThermalBody, 'Fluid Name', thermalData.shell_fluid_name);
-    createRow(shellThermalBody, 'Flow Rate', thermalData.shell_flowrate, 'm³/s');
+    createRow(shellThermalBody, 'Flow Rate', thermalData.shell_flowrate, thermalData.flowrate_unit, 'm3/s');
     createRow(shellThermalBody, 'Inlet Temperature', thermalData.shell_inlet_temp, '°C');
     createRow(shellThermalBody, 'Outlet Temperature', thermalData.shell_outlet_temp, '°C');
     createRow(shellThermalBody, 'Fouling Factor', thermalData.shell_fouling, 'm²h°C/kcal');
@@ -102,7 +102,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const tubeThermalBody = document.getElementById('tube-thermal-table').createTBody();
     createRow(tubeThermalBody, 'Fluid Name', thermalData.tube_fluid_name);
-    createRow(tubeThermalBody, 'Flow Rate', thermalData.tube_flowrate, 'm³/s');
+    createRow(tubeThermalBody, 'Flow Rate', thermalData.tube_flowrate, thermalData.flowrate_unit, 'm3/s');
+    // createRow(tubeThermalBody, 'Flow Rate', thermalData.tube_flowrate, final_results.unit);
+    // createRow(tubeThermalBody, 'Flow Rate', thermalData.tube_flowrate, 'm³/s');
     createRow(tubeThermalBody, 'Inlet Temperature', thermalData.tube_inlet_temp, '°C');
     createRow(tubeThermalBody, 'Outlet Temperature', thermalData.tube_outlet_temp, '°C');
     createRow(tubeThermalBody, 'Fouling Factor', thermalData.tube_fouling, 'm²h°C/kcal');
@@ -161,23 +163,23 @@ document.addEventListener('DOMContentLoaded', function() {
         // Target the single new table body for all nozzles
         const nozzleBody = document.getElementById('nozzles-table').createTBody();
         if (nozzleData.shell?.inlet) {
-            createRow(nozzleBody, 'Shell Inlet NPS / Sch (in)', `${nozzleData.shell.inlet.nps} / ${nozzleData.shell.inlet.sch}`);
+            createRow(nozzleBody, 'Shell Inlet NPS (in)', `${nozzleData.shell.inlet.nps} / ${nozzleData.shell.inlet.sch}`);
             createRow(nozzleBody, 'Shell Inlet ID (mm)', nozzleData.shell.inlet.id_mm, 'mm');
         }
         if (nozzleData.shell?.outlet) {
-            createRow(nozzleBody, 'Shell Outlet NPS / Sch (in)', `${nozzleData.shell.outlet.nps} / ${nozzleData.shell.outlet.sch}`);
+            createRow(nozzleBody, 'Shell Outlet NPS  (in)', `${nozzleData.shell.outlet.nps} / ${nozzleData.shell.outlet.sch}`);
             createRow(nozzleBody, 'Shell Outlet ID (mm)', nozzleData.shell.outlet.id_mm, 'mm');
         }
         if (nozzleData.shell?.intermediate) {
-             createRow(nozzleBody, 'Shell Intermediate NPS / Sch (in)', `${nozzleData.shell.intermediate.nps} / ${nozzleData.shell.intermediate.sch}`);
+             createRow(nozzleBody, 'Shell Intermediate NPS  (in)', `${nozzleData.shell.intermediate.nps} / ${nozzleData.shell.intermediate.sch}`);
             createRow(nozzleBody, 'Shell Intermediate ID (mm)', nozzleData.shell.intermediate.id_mm, 'mm');
         }
         if (nozzleData.tube?.inlet) {
-            createRow(nozzleBody, 'Tube Inlet NPS / Sch (in)', `${nozzleData.tube.inlet.nps} / ${nozzleData.tube.inlet.sch}`);
+            createRow(nozzleBody, 'Tube Inlet NPS (in)', `${nozzleData.tube.inlet.nps} / ${nozzleData.tube.inlet.sch}`);
             createRow(nozzleBody, 'Tube Inlet ID (mm)', nozzleData.tube.inlet.id_mm, 'mm');
         }
         if (nozzleData.tube?.outlet) {
-            createRow(nozzleBody, 'Tube Outlet NPS / Sch (in)', `${nozzleData.tube.outlet.nps} / ${nozzleData.tube.outlet.sch}`);
+            createRow(nozzleBody, 'Tube Outlet NPS (in)', `${nozzleData.tube.outlet.nps} / ${nozzleData.tube.outlet.sch}`);
             createRow(nozzleBody, 'Tube Outlet ID (mm)', nozzleData.tube.outlet.id_mm, 'mm');
         }
     }
@@ -190,13 +192,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // createRow(kernResultsBody, 'Tube Side dP', finalResults.kern_dp_tube, 'kPa');
 
     const bdResultsBody = document.getElementById('bd-results-table').createTBody();
-    createRow(bdResultsBody, 'Overall U (Clean)', finalResults.bd_u_clean, 'W/m²K');
-    createRow(bdResultsBody, 'Overall U (Dirty)', finalResults.bd_u_dirty, 'W/m²K');
+    createRow(bdResultsBody, 'Overall U (Clean)', finalResults.u_clean, 'W/m²K');
+    // createRow(bdResultsBody, 'Overall U (Clean)', finalResults.bd_u_clean, 'W/m²K');
+    createRow(bdResultsBody, 'Overall U (Dirty)', finalResults.u_dirty, 'W/m²K');
+    // createRow(bdResultsBody, 'Overall U (Dirty)', finalResults.bd_u_dirty, 'W/m²K');
 
     
     // createRow(kernResultsBody, 'Shell Side dP', finalResults.kern_dp_shell, 'kPa');
 
-    createRow(bdResultsBody, 'Shell Side dP', ((finalResults.bd_dp_shell)+(finalResults.kern_dp_shell)), 'kPa');
+    createRow(bdResultsBody, 'Shell Side dP', finalResults.dp_shell,'kPa');
+    // createRow(bdResultsBody, 'Shell Side dP', ((finalResults.bd_dp_shell)+(finalResults.kern_dp_shell)), 'kPa');
     createRow(bdResultsBody, 'Tube Side dP', finalResults.kern_dp_tube, 'kPa');
     // createRow(bdResultsBody, 'U Service', finalResults.U_service, 'kPa');
 
@@ -218,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const summaryBody = document.getElementById('design-summary-table').createTBody();
         createRow(summaryBody, 'Log Mean Temp. Difference (LMTD)', summaryData.lmtd, '°C');
         createRow(summaryBody, 'Actual Area Provided (A_actual)', summaryData.A_actual, 'm²');
+        createRow(summaryBody, 'Required Area (A_req)', summaryData.A_req, 'm²');
         createRow(summaryBody, 'Service Rate Required (U_service)', summaryData.U_service_rate, 'W/m²K');
         
         // // --- KERN METHOD SUMMARY & STATUS ---
@@ -245,14 +251,15 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // --- BELL-DELAWARE METHOD SUMMARY & STATUS ---
         // summaryBody.insertRow().innerHTML = `<td colspan="2" style="background-color: #f8f9fa; font-weight: 500; text-align: center;">Bell-Delaware Method Verification</td>`;
-        createRow(summaryBody, 'Calculated U (Dirty)', finalResults.bd_u_dirty, 'W/m²K');
+        // createRow(summaryBody, 'Calculated U (Dirty)', finalResults.bd_u_dirty, 'W/m²K');
+        createRow(summaryBody, 'Calculated U (Dirty)', finalResults.u_dirty, 'W/m²K');
         createRow(summaryBody, 'Overdesign / Margin', summaryData.margin_bd, '%');
 
         // Add Bell-Delaware Status Row
         let bdStatus = 'N/A';
         let bdStatusClass = '';
-         if (finalResults.bd_u_dirty != null && summaryData.U_service_rate != null) {
-            if (finalResults.bd_u_dirty >= summaryData.U_service_rate) {
+         if (finalResults.u_dirty != null && summaryData.U_service_rate != null) {
+            if (finalResults.u_dirty >= summaryData.U_service_rate) {
                 bdStatus = 'Design is Adequate';
                 bdStatusClass = 'status-ok';
             } else {

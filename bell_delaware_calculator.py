@@ -311,7 +311,7 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         # Jc = 0.75
         # Jl = 0.9
         # Jb = 0.75
-        return h_ideal * Jc * Jb * Jl * 1.2
+        return h_ideal * Jc * Jb * Jl
     except Exception as e:
         print(f"ERROR during Bell-Delaware HTC calculation: {e}"); traceback.print_exc(); return np.nan
 
@@ -388,7 +388,7 @@ def calculate_bell_delaware_dp(solved_df, geo_props, nozzle_data,thermal_data):
             dP_nozzles_Pa += 1.5 * (p['rho_hot'] * v_nozzle_out**2 / 2)
 
         # --- FINAL CALCULATION ---
-        total_dP_Pa = (dP_bundle_Pa + dP_nozzles_Pa)*1.5/1000
+        total_dP_Pa = (dP_bundle_Pa + dP_nozzles_Pa)*1/1000
         print(total_dP_Pa)
         results1 = (dP_central_bays + dP_all_windows + dP_end_zones) / 1000
         

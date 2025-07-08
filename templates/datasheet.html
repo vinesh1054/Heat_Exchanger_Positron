@@ -10,29 +10,21 @@
 </head>
 
 <body>
-        {% include 'navigation.html' %}
+        <!-- {% include 'navigation.html' %} -->
        <!-- <div class="actions-bar no-print">
         <button id="print-btn">🖨️ Print Datasheet</button>
         <button id="new-calc-btn">➕ Start New Calculation</button>
     </div> -->
 
     <div class="datasheet-container">
-        <header class="datasheet-header">
-            <div class="header-left">
-                <!-- This will be populated by JS -->
-                <div id="company-info"></div>
-            </div>
-            <div class="header-center">
-                <h1>Heat Exchanger Specification Sheet</h1>
-                <!-- This will be populated by JS -->
-                <div id="job-info"></div>
-            </div>
-            <div class="header-right">
-                <!-- This will be populated by JS -->
-                <div id="page-info"></div>
-                <div id="surface-info"></div>
-            </div>
+        <header class="datasheet-logo-header">
+            <!-- IMPORTANT: Make sure your logo is saved in static/images/ -->
+            <img src="/static/images/logo.jpg" alt="Company Logo" class="company-logo">
         </header>
+
+        <div class="datasheet-title-header">
+            <h1>Heat Exchanger Specification Sheet</h1>
+        </div>  
 
         <main>
             <table class="datasheet-table" id="datasheet-main-table">
