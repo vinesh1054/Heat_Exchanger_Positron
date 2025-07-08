@@ -311,8 +311,9 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         # Jc = 0.75
         # Jl = 0.9
         # Jb = 0.75
-        # return h_ideal * Jc * Jb * Jl
-        return h_hot * Jc * Jb * Jl
+        htc = min(h_ideal,h_hot)
+        return htc * Jc * Jb * Jl
+        # return h_hot * Jc * Jb * Jl
     except Exception as e:
         print(f"ERROR during Bell-Delaware HTC calculation: {e}"); traceback.print_exc(); return np.nan
 
