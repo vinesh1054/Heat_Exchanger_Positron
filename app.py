@@ -674,7 +674,7 @@ def api_calculate_final_performance():
             A_req1 = (Q_watts / (u_dirty * mtd_corrected))
             A_req = (Q_watts / (U_dirty_bd * mtd_corrected))
             design_summary["A_req"] = A_req1
-            design_summary["margin_bd"] = ((A_actual_total - A_req_bd) / A_req_bd) * 100 if A_req1 > 0 else np.nan
+            design_summary["margin_bd"] = ((A_actual_total - A_req1) / A_req1) * 100 if A_req1 > 0 else np.nan
             # design_summary["margin_bd"] = ((A_actual_total - A_req1) / A_req1) * 100 if A_req1 > 0 else np.nan
             # design_summary["margin_bd"] = ((A_actual_total - A_req_bd) / A_req_bd) * 100 if A_req_bd > 0 else np.nan
             # design_summary["margin_bd"] = U_dirty_bd/(Q_watts / (A_actual_total * mtd_corrected)) if A_req_bd > 0 else np.nan
