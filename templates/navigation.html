@@ -36,6 +36,9 @@
                  <li class="nav-item">
                     <a class="nav-link {% if request.endpoint == 'report_page' %}active{% endif %}" href="{{ url_for('report_page') }}">Report</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'datasheet_page' %}active{% endif %}" href="{{ url_for('datasheet_page') }}">Datasheet</a>
+                </li>
             </ul>
             {% endif %}
 

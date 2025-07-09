@@ -222,4 +222,12 @@
         color: #000 !important;
         background: transparent !important;
     }
+
+
+
+        .sidebar, .sidebar-header, .sidebar-footer, .actions, .report-actions {
+        display: none !important;
+    }
+    
+
 }

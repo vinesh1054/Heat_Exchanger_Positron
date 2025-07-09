@@ -133,3 +133,26 @@ body {
     font-size: 7pt;
     text-align: center;
 }
+
+@media print {
+    
+   .sidebar {
+        display: none !important;
+    }
+
+        .print-logo {
+         display: none !important;
+    }
+
+
+        .sidebar {
+        display: none !important;
+    }
+    .sidebar-logo{
+        /* size: 50; */
+    }
+
+        .report-actions {
+        display: none !important;
+    }
+}
