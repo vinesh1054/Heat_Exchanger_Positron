@@ -324,7 +324,11 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         #     htc = (h_ideal+h_hot)/2
         # else:
         #     htc = min(h_ideal,h_hot)
-        htc = (h_ideal+h_hot)/2
+        if Ds < 200:
+            htc = (h_ideal+h_hot)/2
+        else:
+            htc = min(h_ideal,h_hot)
+        # htc = (h_ideal+h_hot)/2
         # htc = htc * 1.1
         # htc = min(h_ideal,h_hot)
         return htc * Jc * Jb * Jl * 1.15
