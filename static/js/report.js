@@ -140,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createRow(tubeGeoBody, 'Tube Layout', geoData.tube_layout);
     createRow(tubeGeoBody, 'Baffle Spacing', geoData.baffle_spacing, 'mm');
     createRow(tubeGeoBody, 'Baffle Cut', geoData.baffle_cut, '%');
+    createRow(tubeGeoBody, 'Outer Tube Limit (mm)', geoData.outer_tube_limit, '');
 
     // 3. Materials Data
     if (materialsData) {
@@ -203,6 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     createRow(bdResultsBody, 'Shell Side dP', finalResults.dp_shell,'kPa');
     // createRow(bdResultsBody, 'Shell Side dP', ((finalResults.bd_dp_shell)+(finalResults.kern_dp_shell)), 'kPa');
     createRow(bdResultsBody, 'Tube Side dP', finalResults.kern_dp_tube, 'kPa');
+    
     // createRow(bdResultsBody, 'U Service', finalResults.U_service, 'kPa');
 
 
@@ -315,7 +317,7 @@ if (fractionData && Object.keys(fractionData).length > 0) {
     };
 
     const thresholds = {
-        C_fraction: 0.22, // A high C-stream is a critical flaw
+        C_fraction: 0.221, // A high C-stream is a critical flaw
         A_fraction: 0.20, // A high A-stream is a critical flaw
         E_fraction: 0.15, // E-stream should be less than 15%
         F_fraction: 0.15  // F-stream should be less than 15%
@@ -324,7 +326,7 @@ if (fractionData && Object.keys(fractionData).length > 0) {
     // CORRECTED LOGIC: Check each leakage/bypass stream against its individual threshold.
     // This ensures ALL existing problems are reported, not just the first one found.
     for (const key in thresholds) {
-        if (fractionData[key] > thresholds[key]) {
+        if (fractionData[key] >= thresholds[key]) {
             problems.push(advice[key]);
         }
     }

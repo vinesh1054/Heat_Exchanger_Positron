@@ -73,6 +73,8 @@ def calculate_all_performance(solved_df, geo_props, tube_viscosities, thermal_da
         Np = geo_props['number_of_passes']
         L_tube = geo_props['tube_length']
 
+
+
         # --- Tube Side HTC Calculations ---
         At_per_pass = (Nt / Np) * (np.pi / 4) * (Di**2)
         Gt = m_dot_cold / At_per_pass if At_per_pass > 0 else 0
@@ -117,6 +119,11 @@ def calculate_all_performance(solved_df, geo_props, tube_viscosities, thermal_da
         results['m_dot_hotti'] = V_dot_hot * rho_hot
         flow_paras['Re_shell'] = Re_shell_kern
         flow_paras['Pr_shell'] = Pr_shell
+
+                        # Outer Tube Limit (OTL) diameter
+        if geo_props.get('tube_layout', 'triangular').lower() == 'triangular': K1, n1 = 0.319, 2.142
+        else: K1, n1 = 0.215, 2.207
+        results['D_otl'] = Do * (Nt / K1)**(1 / n1) if K1 > 0 and Nt > 0 else 0
 
 
         ### --- PRESSURE DROP CALCULATION --- ###

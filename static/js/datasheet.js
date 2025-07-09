@@ -313,7 +313,8 @@ document.addEventListener('DOMContentLoaded', function() {
     createRow(tbody, ['Tube to Tubesheet Joint', 'Expanded', '', 'Tubesheet Matl', materialsData.mat_tubesheet], 'horizontal-only');
     // createRow(tbody, ['ρv² Inlet Nozzle', `${format(finalResults.design_checks.momentum.shell_inlet.value, 2)} kg/(m·s²)`, '', 'Bundle Exit', '---'], 'horizontal-only');
     createRow(tbody, ['Gaskets', `<strong>Shell:</strong> ${materialsData.mat_shell_gasket}`, '', `<strong>Tube:</strong> ${materialsData.mat_tube_gasket}`, ''], 'horizontal-only');
-    // createRow(tbody, ['Code Requirements', 'ASME Sect. VIII Div. 1', `<strong>Orientation:</strong> ${geoData.orientation}`, 'Weight/Shell (E/F)', `--- / --- kg`], 'horizontal-only');
+    createRow(tbody, ['Code Requirements', `${thermalData.asme_code1}`, `TEMA Class: ${thermalData.tema_class}`, `<strong>Orientation:</strong> ${geoData.orientation}`], 'horizontal-only');
+    // createRow(tbody, ['Code Requirements', 'ASME Sec. VIII Div. 1', `<strong>Orientation:</strong> ${geoData.orientation}`, 'Weight/Shell (E/F)', `--- / --- kg`], 'horizontal-only');
     // createRow(tbody, ['Remarks', 'Calculations performed by Heat Exchanger Performance Tool.', '', '', ''], 'horizontal-only');
     createRow(tbody, ['Remarks', '', '', '', ''], 'horizontal-only');
 

@@ -79,7 +79,9 @@ def get_common_bd_params(solved_df, geo_props, thermal_data):
         # Outer Tube Limit (OTL) diameter
         if geo_props.get('tube_layout', 'triangular').lower() == 'triangular': K1, n1 = 0.319, 2.142
         else: K1, n1 = 0.215, 2.207
-        params['D_otl'] = params['Do'] * (params['Nt'] / K1)**(1 / n1) if K1 > 0 and params['Nt'] > 0 else 0
+        # params['D_otl'] = 0.011
+        params['D_otl'] = geo_props['outer_tube_limit']/1000
+        # params['D_otl'] = params['Do'] * (params['Nt'] / K1)**(1 / n1) if K1 > 0 and params['Nt'] > 0 else 0
         
         # Bundle-to-shell bypass area
         params['A_bp'] = params['B'] * (params['Ds'] - params['D_otl']) if params['Ds'] > params['D_otl'] else 0
@@ -163,7 +165,7 @@ def calculate_flow_fractions(p, geo_props):
 
         # === 3. Initialize Fractions and Loop Setup ===
         fractions = {k: A[k] / total_area for k in A}
-        max_iter = 15
+        max_iter = 150
         tol = 0.001
 
         for _ in range(max_iter):
@@ -254,6 +256,7 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         Np = geo_props['number_of_passes']
         L_tube = geo_props['tube_length']
         heat_load = thermal_data.get("heat_load", 0)
+        otl = p['D_otl']
         
         
 

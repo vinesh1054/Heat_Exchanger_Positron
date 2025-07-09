@@ -54,7 +54,7 @@
                                 <select class="form-select" id="flowrate_unit">
                                     <option value="m3/s" selected>m³/s</option>
                                     <option value="m3/h">m³/h</option>
-                                    <option value="lpm">L/min</option>
+                                    <option value="lpm">LPM</option>
                                 </select>
                             </td>
                             <td colspan="2">
@@ -199,6 +199,28 @@
                             <td>Est. Wall Temp <small class="text-muted">(°C)</small></td>
                             <td>-</td>
                             <td colspan="4"><input type="text" class="form-control" id="wall_temp" readonly></td>
+                        </tr>
+
+                        <tr>
+                            <td>Code Requirements</small></td>
+                            <td>-</td>
+                            <td colspan="4"><select class="form-select" id="asme_code">
+                                    <option value="ASME Sec. VIII Div. 1" selected>ASME Sec. VIII Div. 1</option>
+                                    <option value="Good Engineering Practice">Good Engineering Practice</option>
+
+                                </select></td>
+                        </tr>
+
+                                                <tr>
+                            <td>TEMA Class</small></td>
+                            <td>-</td>
+                            <td colspan="4"><select class="form-select" id="tema_class">
+                                    <option value="A" selected>A</option>
+                                    <option value="B" >B</option>
+                                    <option value="C" >C</option>
+                                    <option value="Good Engineering Practice">Good Engineering Practice</option>
+
+                                </select></td>
                         </tr>
 
                     </tbody>

@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
         shell_design_temp: getEl('shell_design_temp'), tube_design_temp: getEl('tube_design_temp'),
         shell_corr_allow: getEl('shell_corr_allow'), tube_corr_allow: getEl('tube_corr_allow'),
         heat_load: getEl('heat_load'),
+        asme_code: getEl('asme_code'), TEMA_class: getEl('tema_class'),
+        asme_code1:getEl('asme_code'),
         // Readonly fields
         shell_inlet_density: getEl('shell_inlet_density'), shell_outlet_density: getEl('shell_outlet_density'),
         shell_inlet_viscosity: getEl('shell_inlet_viscosity'), shell_outlet_viscosity: getEl('shell_outlet_viscosity'),
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tube_inlet_cp: getEl('tube_inlet_cp'), tube_outlet_cp: getEl('tube_outlet_cp'),
         tube_inlet_k: getEl('tube_inlet_k'), tube_outlet_k: getEl('tube_outlet_k'),
         bulk_temp_hot: getEl('bulk_temp_hot'), bulk_temp_cold: getEl('bulk_temp_cold'), wall_temp: getEl('wall_temp'),
+        
         // Controls
         solveBtn: getEl('solve-btn'), errorDiv: getEl('error-message')
     };

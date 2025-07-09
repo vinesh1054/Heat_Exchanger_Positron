@@ -524,6 +524,7 @@ def api_calculate_performance():
                 # FIX: Pass `thermal_data` dictionary to the calculator functions
         kern_results = calculate_all_performance(df_final, geo_props, tube_viscosities, thermal_data, calc_U=False, calc_dP=False)
         bd_htc = calculate_bell_delaware_htc(df_final, geo_props, thermal_data)
+        parameter = get_common_bd_params(df_final, geo_props, thermal_data)
 
         final_results = {
             "tube_side": { "reynolds": kern_results.get('Tube-Side Reynolds No.'), "prandtl": kern_results.get('Tube-Side Prandtl No.'), "htc": kern_results.get('Tube-Side h (W/m2.K)') },
@@ -619,6 +620,8 @@ def api_calculate_final_performance():
         u_dirty = (U_dirty_kern+U_dirty_bd)/2
 
         final_results["u_dirty"] = (U_dirty_kern+U_dirty_bd)/2
+
+        final_results["Tube_otl"] = kern_results_per_shell.get('D_otl')
         # final_results["u_dirty"] = (U_dirty_bd)
 
         # b) Calculate Total Pressure Drop
