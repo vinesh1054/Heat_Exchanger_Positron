@@ -29,6 +29,8 @@ def get_common_bd_params(solved_df, geo_props, thermal_data):
         flow_unit = thermal_data.get('flowrate_unit', 'm3/s')
         V_dot_hot_from_df = float(solved_df.loc[find_property_label(solved_df.index, 'Flow Rate'), 'Hot Fluid'])
         V_dot_hot_si = _get_flow_in_si(V_dot_hot_from_df, flow_unit)
+        heat_load = thermal_data.get('heat_load',0)
+        params['q_load'] = heat_load
         
         # Use the corrected SI values for all subsequent calculations
         params['V_dot_hot'] = V_dot_hot_si
@@ -251,6 +253,7 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         Nt = geo_props['number_of_tubes']
         Np = geo_props['number_of_passes']
         L_tube = geo_props['tube_length']
+        heat_load = thermal_data.get("heat_load", 0)
         
         
 
@@ -280,10 +283,15 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         Pr_shell = (p['cp_hot'] * p['mu_hot_pas']) / p['k_hot'] if p['k_hot'] > 0 else 0
 
         
-        if Re_crossflow > 1000: j_H = 0.25 * (Re_crossflow**-0.4)
-        elif 10 <= Re_crossflow <= 1000: j_H = 0.3 * (Re_crossflow**-0.3)
-        else: j_H = 1.4 * (Re_crossflow**-0.7)
+        if Re_crossflow > 2000: j_H = 0.36 * (Re_crossflow**-0.4)
+        # elif 10 <= Re_crossflow <= 1000: j_H = 0.4 * (Re_crossflow**-0.3)
+        else: j_H = 1.86 * (Re_crossflow**-0.7)
         h_ideal = (j_H * Re_crossflow * (Pr_shell**(1/3)) * p['k_hot']) / p['Do'] if p['Do'] > 0 else 0
+
+        # if Re_crossflow > 1000: j_H = 0.25 * (Re_crossflow**-0.4)
+        # elif 10 <= Re_crossflow <= 1000: j_H = 0.3 * (Re_crossflow**-0.3)
+        # else: j_H = 1.4 * (Re_crossflow**-0.7)
+        # h_ideal = (j_H * Re_crossflow * (Pr_shell**(1/3)) * p['k_hot']) / p['Do'] if p['Do'] > 0 else 0
 
         # Correction Factors
         Jc = 0.55 + 0.72 * (1 - 2 * p['F_w'])
@@ -311,9 +319,15 @@ def calculate_bell_delaware_htc(solved_df, geo_props,thermal_data):
         # Jc = 0.75
         # Jl = 0.9
         # Jb = 0.75
-        # htc = (h_ideal+h_hot)/2
-        htc = min(h_ideal,h_hot)
-        return htc * Jc * Jb * Jl * 1.05
+
+        # if heat_load < 100:
+        #     htc = (h_ideal+h_hot)/2
+        # else:
+        #     htc = min(h_ideal,h_hot)
+        htc = (h_ideal+h_hot)/2
+        # htc = htc * 1.1
+        # htc = min(h_ideal,h_hot)
+        return htc * Jc * Jb * Jl * 1.15
         # return h_ideal * Jc * Jb * Jl
     except Exception as e:
         print(f"ERROR during Bell-Delaware HTC calculation: {e}"); traceback.print_exc(); return np.nan
