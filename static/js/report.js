@@ -315,7 +315,7 @@ if (fractionData && Object.keys(fractionData).length > 0) {
     };
 
     const thresholds = {
-        C_fraction: 0.20, // A high C-stream is a critical flaw
+        C_fraction: 0.22, // A high C-stream is a critical flaw
         A_fraction: 0.20, // A high A-stream is a critical flaw
         E_fraction: 0.15, // E-stream should be less than 15%
         F_fraction: 0.15  // F-stream should be less than 15%
